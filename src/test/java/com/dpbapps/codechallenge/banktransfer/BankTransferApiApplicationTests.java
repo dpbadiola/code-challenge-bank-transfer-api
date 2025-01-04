@@ -1,4 +1,4 @@
-package com.dpbapps.codechallenge.banktransferapi;
+package com.dpbapps.codechallenge.banktransfer;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
