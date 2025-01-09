@@ -1,0 +1,14 @@
+### Make a transfer request
+POST http://localhost:8080/transactions/transfer
+Content-Type: application/json
+
+{
+	"sender_account_number": "ORANJE00001234",
+	"recipient_account": "BLU00001234",
+	"recipient_bank_code": "BLU",
+	"transfer_amount": 10.00,
+	"transfer_type": "InstaPay"
+}
+
+### Get transaction details
+GET http://localhost:8080/transactions/{{$uuid}}
