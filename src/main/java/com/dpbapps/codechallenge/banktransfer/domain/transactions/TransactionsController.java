@@ -81,7 +81,7 @@ public class TransactionsController {
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(TransactionsException.class)
 	public ProblemDetail transactionsException(TransactionsException ex) {
-		return ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+		return buildProblemDetail(HttpStatus.BAD_REQUEST, "Transaction error", ex.getMessage());
 	}
 
 	private ProblemDetail buildProblemDetail(HttpStatus status, String title, String detail) {

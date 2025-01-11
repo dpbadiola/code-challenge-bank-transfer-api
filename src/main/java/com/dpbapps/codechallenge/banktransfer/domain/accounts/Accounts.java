@@ -1,7 +1,9 @@
 package com.dpbapps.codechallenge.banktransfer.domain.accounts;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "accounts")
 public class Accounts {
