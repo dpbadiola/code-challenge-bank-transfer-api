@@ -8,12 +8,12 @@ CREATE TABLE IF NOT EXISTS accounts
 );
 CREATE TABLE IF NOT EXISTS transactions
 (
-    id                UUID PRIMARY KEY,
+    id                UUID           NOT NULL PRIMARY KEY,
     create_date       TIMESTAMP      NOT NULL DEFAULT CURRENT_TIMESTAMP,
     posting_date      TIMESTAMP      NOT NULL,
     debit             DECIMAL(15, 2) NOT NULL DEFAULT 0.00,
     credit            DECIMAL(15, 2) NOT NULL DEFAULT 0.00,
-    account_id        BIGINT,
+    account_id        BIGINT         NOT NULL,
     transfer_type     CHARACTER(50),
     transfer_fee      DECIMAL(15, 2) NOT NULL DEFAULT 0.00,
     transfer_metadata JSON,

@@ -2,13 +2,16 @@ package com.dpbapps.codechallenge.banktransfer.domain.transactions;
 
 import com.dpbapps.codechallenge.banktransfer.domain.accounts.Accounts;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
 
 @Data
+@Builder
+@AllArgsConstructor
+@RequiredArgsConstructor
 @Entity
 @Table(name = "transactions")
 public class Transactions {

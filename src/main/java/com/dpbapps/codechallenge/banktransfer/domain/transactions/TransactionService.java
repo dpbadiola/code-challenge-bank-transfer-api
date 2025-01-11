@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.UUID;
 
 @Service
@@ -31,19 +32,47 @@ public class TransactionService {
 
 	@Transactional
 	public UUID createTransaction(TransactionRequest request) {
-		Long accountId = accountsRepository.findByAccountNumber(request.senderAccountNumber())
-			.map(Accounts::getId)
+		Accounts sender = accountsRepository.findByAccountNumber(request.senderAccountNumber())
 			.orElseThrow(() -> new TransactionsException("Sender account number not found"));
 
-		BigDecimal accountBalance = getAccountBalance(accountId);
-		if (accountBalance.subtract(request.amount()).compareTo(BigDecimal.ZERO) < 0) {
+		BigDecimal senderAccountBalance = getAccountBalance(sender.getId());
+		if (senderAccountBalance.subtract(request.amount()).compareTo(BigDecimal.ZERO) < 0) {
 			throw new TransactionsException("Insufficient balance");
 		}
 
-		// TODO: persist transaction
-		// TODO: persist transfer details
+		Accounts recipient = accountsRepository.findByAccountNumber(request.senderAccountNumber())
+			.orElseThrow(() -> new TransactionsException("Recipient account number not found"));
 
-		return UUID.randomUUID();
+		Instant timestamp = Instant.now();
+
+		Transactions senderTransaction = Transactions.builder()
+			.uuid(UUID.randomUUID())
+			.createdDate(timestamp)
+			.postingDate(timestamp)
+			.debit(request.amount())
+			.credit(BigDecimal.ZERO)
+			.account(sender)
+			.transferType("Internal")
+			.transferFee(BigDecimal.ZERO)
+			.endingBalance(senderAccountBalance.subtract(request.amount()))
+			.build();
+		transactionsRepository.save(senderTransaction);
+
+		BigDecimal recipientAccountBalance = getAccountBalance(recipient.getId());
+		Transactions recipientTransaction = Transactions.builder()
+			.uuid(UUID.randomUUID())
+			.createdDate(timestamp)
+			.postingDate(timestamp)
+			.debit(BigDecimal.ZERO)
+			.credit(request.amount())
+			.account(recipient)
+			.transferType("Internal")
+			.transferFee(BigDecimal.ZERO)
+			.endingBalance(recipientAccountBalance.add(request.amount()))
+			.build();
+		transactionsRepository.save(recipientTransaction);
+
+		return senderTransaction.getUuid();
 	}
 
 	private BigDecimal getAccountBalance(Long accountId) {

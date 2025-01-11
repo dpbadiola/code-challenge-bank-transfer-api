@@ -1,5 +1,7 @@
 INSERT INTO accounts(id, account_number)
 VALUES (1, 'ORANJE00001234');
+INSERT INTO accounts(id, account_number)
+VALUES (2, 'ORANJE00005678');
 
 INSERT INTO transactions(id,
                          create_date,

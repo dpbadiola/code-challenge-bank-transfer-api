@@ -1,13 +1,13 @@
-### Make a transfer request
+ ### Make a transfer request (Internal)
 POST http://localhost:8080/api/transactions/transfer
 Content-Type: application/json
 
 {
 	"sender_account_number": "ORANJE00001234",
-	"recipient_account": "BLU00001234",
-	"recipient_bank_code": "BLU",
-	"transfer_amount": 10.00,
-	"transfer_type": "InstaPay"
+	"recipient_account": "ORANJE00005678",
+	"recipient_bank_code": "",
+	"transfer_amount": 100.00,
+	"transfer_type": "Internal"
 }
 
 ### Get transaction details
