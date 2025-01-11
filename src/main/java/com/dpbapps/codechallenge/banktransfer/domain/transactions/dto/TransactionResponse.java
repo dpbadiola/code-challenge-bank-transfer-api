@@ -23,6 +23,14 @@ public record TransactionResponse(
 	@Schema(description = "When transaction will be posted to the recipient bank's account number")
 	Instant postingTimestamp,
 
+	@JsonProperty("amount")
+	@Schema(description = "Transfer amount")
+	BigDecimal amount,
+
+	@JsonProperty("transfer_fee")
+	@Schema(description = "Transactions' transfer fee (if applicable)")
+	BigDecimal transferFee,
+
 	@JsonProperty("ending_balance")
 	@Schema(description = "Ending balance of account after transaction request")
 	BigDecimal endingBalance
