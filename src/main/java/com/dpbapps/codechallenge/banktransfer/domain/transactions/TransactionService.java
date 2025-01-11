@@ -1,6 +1,6 @@
 package com.dpbapps.codechallenge.banktransfer.domain.transactions;
 
-import com.dpbapps.codechallenge.banktransfer.domain.error.exceptions.RecordNotFoundException;
+import com.dpbapps.codechallenge.banktransfer.domain.transactions.exceptions.RecordNotFoundException;
 import com.dpbapps.codechallenge.banktransfer.domain.transactions.dto.TransactionRequest;
 import com.dpbapps.codechallenge.banktransfer.domain.transactions.dto.TransactionResponse;
 import lombok.RequiredArgsConstructor;
@@ -13,11 +13,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class TransactionService {
 
-	private final TransactionsRepository repository;
+	private final TransactionsRepository transactionsRepository;
 
 	@Transactional(readOnly = true)
 	public TransactionResponse getTransaction(UUID uuid) {
-		return repository.findById(uuid)
+		return transactionsRepository.findById(uuid)
 			.map(this::mapTransactions)
 			.orElseThrow(() -> new RecordNotFoundException("Transaction not found"))
 			;

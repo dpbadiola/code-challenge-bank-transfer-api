@@ -1,7 +1,7 @@
 package com.dpbapps.codechallenge.banktransfer.domain.transactions;
 
 import com.dpbapps.codechallenge.banktransfer.BaseControllerTest;
-import com.dpbapps.codechallenge.banktransfer.domain.error.exceptions.RecordNotFoundException;
+import com.dpbapps.codechallenge.banktransfer.domain.transactions.exceptions.RecordNotFoundException;
 import com.dpbapps.codechallenge.banktransfer.domain.transactions.exceptions.TransactionsException;
 import com.dpbapps.codechallenge.banktransfer.domain.transactions.dto.TransactionRequest;
 import com.dpbapps.codechallenge.banktransfer.domain.transactions.dto.TransactionResponse;

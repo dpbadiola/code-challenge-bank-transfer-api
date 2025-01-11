@@ -1,7 +1,9 @@
 package com.dpbapps.codechallenge.banktransfer.domain.transactions;
 
+import com.dpbapps.codechallenge.banktransfer.domain.transactions.exceptions.RecordNotFoundException;
 import com.dpbapps.codechallenge.banktransfer.domain.transactions.dto.TransactionRequest;
 import com.dpbapps.codechallenge.banktransfer.domain.transactions.dto.TransactionResponse;
+import com.dpbapps.codechallenge.banktransfer.domain.transactions.exceptions.TransactionsException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -68,6 +70,26 @@ public class TransactionsController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public URI createTransaction(@RequestBody TransactionRequest request) {
 		return URI.create("/transactions/" + transactionService.createTransaction(request));
+	}
+
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@ExceptionHandler(RecordNotFoundException.class)
+	public ProblemDetail recordNotFoundException(RecordNotFoundException ex) {
+		return buildProblemDetail(HttpStatus.NOT_FOUND, "Record not found", ex.getMessage());
+	}
+
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(TransactionsException.class)
+	public ProblemDetail transactionsException(TransactionsException ex) {
+		return ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+	}
+
+	private ProblemDetail buildProblemDetail(HttpStatus status, String title, String detail) {
+		ProblemDetail problemDetail = ProblemDetail.forStatus(status);
+		problemDetail.setTitle(title);
+		problemDetail.setDetail(detail);
+
+		return problemDetail;
 	}
 
 }

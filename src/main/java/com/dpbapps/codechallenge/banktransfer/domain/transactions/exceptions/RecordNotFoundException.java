@@ -1,4 +1,4 @@
-package com.dpbapps.codechallenge.banktransfer.domain.error.exceptions;
+package com.dpbapps.codechallenge.banktransfer.domain.transactions.exceptions;
 
 public class RecordNotFoundException extends RuntimeException {
 
