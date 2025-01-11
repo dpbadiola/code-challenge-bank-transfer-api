@@ -8,19 +8,21 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.net.URI;
-import java.time.Instant;
 import java.util.UUID;
 
 @Tag(name = "transactions")
 @RestController
-@RequestMapping("transactions")
-public class TransactionController {
+@RequiredArgsConstructor
+@RequestMapping("api/transactions")
+public class TransactionsController {
+
+	private final TransactionService transactionService;
 
 	@Operation(
 		summary = "Get transaction details",
@@ -41,12 +43,7 @@ public class TransactionController {
 	@GetMapping("/{uuid}")
 	@ResponseStatus(HttpStatus.OK)
 	public TransactionResponse getTransaction(@PathVariable("uuid") UUID uuid) {
-		return TransactionResponse.builder()
-			.uuid(uuid)
-			.transactionTimestamp(Instant.now())
-			.postingTimestamp(Instant.now())
-			.endingBalance(BigDecimal.TEN)
-			.build();
+		return transactionService.getTransaction(uuid);
 	}
 
 	@Operation(
@@ -69,8 +66,8 @@ public class TransactionController {
 	)
 	@PostMapping("transfer")
 	@ResponseStatus(HttpStatus.CREATED)
-	public URI transfer(@RequestBody TransactionRequest request) {
-		return URI.create("/transactions/" + UUID.randomUUID());
+	public URI createTransaction(@RequestBody TransactionRequest request) {
+		return URI.create("/transactions/" + transactionService.createTransaction(request));
 	}
 
 }

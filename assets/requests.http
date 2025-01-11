@@ -1,5 +1,5 @@
 ### Make a transfer request
-POST http://localhost:8080/transactions/transfer
+POST http://localhost:8080/api/transactions/transfer
 Content-Type: application/json
 
 {
@@ -11,4 +11,4 @@ Content-Type: application/json
 }
 
 ### Get transaction details
-GET http://localhost:8080/transactions/{{$uuid}}
+GET http://localhost:8080/api/transactions/00000000-0000-0000-0000-000000000000
